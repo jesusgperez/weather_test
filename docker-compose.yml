@@ -2,10 +2,29 @@ version: "3"
 
 services:
   cache_service:
-    container_name: redis-service
+    container_name: cache-service
     build:
-      context: ./redis-service
+      context: ./cache-service
       dockerfile: Dockerfile
     ports:
       - 6379:6379
     restart: always
+    networks:
+      weather-network:
+        aliases:
+          - redis-url
+  main_service:
+    container_name: main-service
+    build:
+      context: ./main-service
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    restart: always
+    volumes:
+      - ./weather-app:/var/www/weather-service
+    networks:
+      - weather-network
+
+networks:
+  weather-network:

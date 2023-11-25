@@ -24,7 +24,7 @@ def weather_service():
     if not country or not city:
         return 'incorrent args'
 
-    cache.set('country', country, timeout=10)
-    cache.set('city', city, timeout=10)
+    cache.set('country', country)
+    cache.set('city', city)
 
     return 'this is a post request'

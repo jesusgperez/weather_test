@@ -1,4 +1,5 @@
 CACHE_CONFIG = {
     'CACHE_TYPE': 'RedisCache',
-    'CACHE_REDIS_URL': 'redis://127.0.0.1:6379'
+    'CACHE_REDIS_URL': 'redis://redis-url:6379',
+    'CACHE_DEFAULT_TIMEOUT': 120
 }
