@@ -18,15 +18,21 @@ def serialize_data(api_data: Dict) -> Dict:
     response = {
         'location_name': f'{city}, {country}',
         'temperature': {
-            'celcius': get_temperature(type=TemperatureType.CELSIUS, temperature=temperature),
-            'fahrenheit': get_temperature(type=TemperatureType.FAHRENHEIT, temperature=temperature)
+            'celcius': get_temperature(
+                type=TemperatureType.CELSIUS,
+                temperature=temperature
+            ),
+            'fahrenheit': get_temperature(
+                type=TemperatureType.FAHRENHEIT,
+                temperature=temperature
+            )
         },
         'wind': data['wind'],
         'cloudness': data['weather'][0]['description'],
         'pressure': f'{pressure} hpa',
         'humidity': f'{humidity}%',
-        'sunrise': f'%02d:%02d' % (sunrise.hour, sunrise.minute),
-        'sunset': f'%02d:%02d' % (sunset.hour, sunset.minute),
+        'sunrise': '%02d:%02d' % (sunrise.hour, sunrise.minute),
+        'sunset': '%02d:%02d' % (sunset.hour, sunset.minute),
         'coordinates': f'[{lat}, {lon}]',
         'requested_time': datetime.now() - timedelta(hours=5),
         'forecast': {}
@@ -38,5 +44,5 @@ def serialize_data(api_data: Dict) -> Dict:
 def get_temperature(type: TemperatureType, temperature: int) -> int:
     if type == TemperatureType.CELSIUS:
         return round(temperature - 273.15, 2)
-    
+
     return round((temperature - 273.15)*9/5 + 32, 2)

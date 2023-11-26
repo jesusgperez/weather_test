@@ -9,9 +9,11 @@ from controller import serialize_data
 app = Flask(__name__)
 cache = Cache(app, config=CACHE_CONFIG)
 
+
 @app.route('/')
 def main():
     return {'hello': 'world'}
+
 
 @app.route('/weather', methods=['GET'])
 def weather_service():
