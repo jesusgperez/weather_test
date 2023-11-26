@@ -7,3 +7,4 @@ CACHE_CONFIG = {
 }
 
 API_URL = os.environ.get('API_URL')
+KELVIN_ZERO = -273.15

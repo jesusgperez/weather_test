@@ -1,8 +1,9 @@
 import json
 import requests
-from app import cache, API_URL
+from flask import current_app
 from typing import Dict, Tuple
 from domain import TemperatureType
+from config import API_URL, KELVIN_ZERO
 from datetime import datetime, timedelta
 
 
@@ -21,6 +22,7 @@ def validate_arguments(query_params: Dict) -> Tuple[bool, str]:
 
 
 def get_weather(query_params: Dict) -> Dict:
+    cache = current_app.cache
     country, city = query_params['country'], query_params['city']
     country, city = country.lower(), city.lower()
 
@@ -31,7 +33,13 @@ def get_weather(query_params: Dict) -> Dict:
 
     request_url = API_URL % (city, country)
 
-    api_response = requests.get(request_url)
+    try:
+        api_response = requests.get(request_url)
+        api_response.raise_for_status()
+    except Exception as e:
+        msg = 'Unexpected error while fetching data'
+        raise Exception(f'{msg}, error: ' + str(e))
+
     api_data = json.loads(api_response.content)
 
     cache.set(f'{country}_{city}', api_data)
@@ -77,6 +85,6 @@ def serialize_data(api_data: Dict) -> Dict:
 
 def get_temperature(type: TemperatureType, temperature: int) -> int:
     if type == TemperatureType.CELSIUS:
-        return round(temperature - 273.15, 2)
+        return round(temperature - KELVIN_ZERO, 2)
 
-    return round((temperature - 273.15)*9/5 + 32, 2)
+    return round((temperature - KELVIN_ZERO)*9/5 + 32, 2)
