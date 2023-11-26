@@ -10,6 +10,7 @@ def error_response(
     payload = {'error': HTTP_STATUS_CODES.get(status_code, 'Unknown error')}
     if message:
         payload['message'] = message
+        payload['content-type'] = 'application/json'
     response = jsonify(payload)
     return response, status_code
 
