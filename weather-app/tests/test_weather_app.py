@@ -12,7 +12,7 @@ from controller import (
     serialize_data,
     get_weather
 )
-from data import (
+from tests.data import (
     test_serialize_dict,
     SERIALIZE_REQUIRED_KEYS,
     SERIALIZED_DATA
