@@ -23,6 +23,7 @@ services:
     restart: always
     volumes:
       - ./weather-app:/var/www/weather-service
+    env_file: ./weather-app/.env
     networks:
       - weather-network
 

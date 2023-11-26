@@ -30,9 +30,9 @@ def weather_service():
 
     country, city = country.lower(), city.lower()
 
-    cached_response = {'data': cache.get(f'{country}_{city}')}
+    cached_response = cache.get(f'{country}_{city}')
 
-    if cached_response['data']:
+    if cached_response:
         response = serialize_data(api_data=cached_response)
         return success_request(response)
 
@@ -43,5 +43,5 @@ def weather_service():
 
     cache.set(f'{country}_{city}', api_data)
 
-    response = serialize_data(api_data={'data': api_data})
+    response = serialize_data(api_data=api_data)
     return success_request(message=response)
